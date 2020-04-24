@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.ServiceModel.Security;
 using System.Threading.Tasks;
 
 namespace NetFx
@@ -7,11 +9,18 @@ namespace NetFx
     {
         static async Task Main()
         {
-            var calculatorClient = new CalculatorServiceClient();
-            calculatorClient.ClientCredentials.UserName.UserName = "username";
-            calculatorClient.ClientCredentials.UserName.Password = "password";
+            ServicePointManager.ServerCertificateValidationCallback = (_, __, ___, ____) => true;
 
-            Console.WriteLine($"11 * 5 = {await calculatorClient.MultiplyAsync(11, 5)}");
+            using (var echoClient = new EchoServiceClient())
+            {
+                echoClient.ClientCredentials.UserName.UserName = @"username";
+                echoClient.ClientCredentials.UserName.Password = @"password";
+                echoClient.ClientCredentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.None;
+
+                echoClient.Open();
+
+                Console.WriteLine(await echoClient.SendStringAsync("Test12345"));
+            }
         }
     }
 }
