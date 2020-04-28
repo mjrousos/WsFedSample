@@ -3,7 +3,7 @@
 namespace RelyingParty
 {
     [ServiceContract]
-    interface IEchoService
+    public interface IEchoService
     {
         [OperationContract(Name = "SendString")]
         string SendString(string message);
