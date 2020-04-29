@@ -56,8 +56,6 @@ namespace NetCore
 
             // TODO: I noticed that binding.Security.Message.ClientCredentialType is 'Windows' instead of 'IssuedToken'. Seems wrong.
             binding.Security.Message.ClientCredentialType = MessageCredentialType.IssuedToken;
-            binding.Security.Mode = SecurityMode.TransportWithMessageCredential;
-            binding.Security.Message.EstablishSecurityContext = false;
 
             return binding;
         }
