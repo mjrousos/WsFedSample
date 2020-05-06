@@ -6,12 +6,7 @@
   </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="System.ServiceModel.Federation" Version="0.0.1-preview" />
-        <PackageReference Include="System.Private.ServiceModel" Version="5.0.0-dev.20229.1" />
-        <PackageReference Include="System.ServiceModel.Http" Version="5.0.0-dev.20229.1" />
-        <PackageReference Include="System.ServiceModel.Primitives" Version="5.0.0-dev.20229.1" />
-        <PackageReference Include="System.ServiceModel.Security" Version="5.0.0-dev.20229.1" />
-        <PackageReference Include="System.ServiceModel.Primitives" Version="5.0.0-dev.20229.1" />
+        <PackageReference Include="System.ServiceModel.Federation" Version="6.5.2-preview-10506042551" />
     </ItemGroup>
 
 </Project>
