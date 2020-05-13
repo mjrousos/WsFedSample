@@ -75,16 +75,21 @@ namespace NetCore
                 IssuerBinding = issuerBinding,
                 IssuerAddress = new EndpointAddress("https://issueraddress/adfs/services/trust/13/usernamemixed"),
 
-                // These shouldn't need set once there are helper methods for creating
+                // These won't need set once there are helper methods for creating
                 // WsFederationHttpBinding and Ws2007FederationHttpBinding instances.
                 TokenType = "http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV1.1",
                 MessageSecurityVersion = MessageSecurityVersion.WSSecurity11WSTrust13WSSecureConversation13WSSecurityPolicy12BasicSecurityProfile10,
 
-                // These two wouldn't normally be set, but are used here to make
-                // sure that token issuing is done on each iteration since that's 
-                // one of the code paths I want to check performance for.
-                CacheIssuedTokens = false,
-                EstablishSecurityContext = false,
+                // These two properties are typically set to true. If you are trying to compare performance between NetFx and NetCore,
+                // though, then you will want to uncomment these lines to get a fair comparison. Since the NetFx sample in this solution
+                // isn't caching the WCF client, it has to recreate the secure conversation on every iteration even with SCT enabled. 
+                // If these are uncommented, the RelyingParty and NetFx samples will also need to disable security context for the binding 
+                // since the client and RP need to match.
+                // 
+                // In most real-world scenarios leveraging SCT, leaving these properties set to true (which is the default) is preferable.
+                // 
+                // CacheIssuedTokens = false,
+                // EstablishSecurityContext = false,
             });
 
             return binding;
