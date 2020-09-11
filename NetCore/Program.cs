@@ -5,6 +5,7 @@ using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Federation;
 using System.ServiceModel.Security;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace NetCore
@@ -69,15 +70,15 @@ namespace NetCore
             var issuerBinding = new WS2007HttpBinding(SecurityMode.TransportWithMessageCredential);
             issuerBinding.Security.Message.ClientCredentialType = MessageCredentialType.UserName;
             issuerBinding.Security.Message.EstablishSecurityContext = false;
+            issuerBinding.TextEncoding = Encoding.UTF8;
 
             var binding = new WsFederationHttpBinding(new WsTrustTokenParameters
             {
                 IssuerBinding = issuerBinding,
                 IssuerAddress = new EndpointAddress("https://issueraddress/adfs/services/trust/13/usernamemixed"),
 
-                // These won't need set once there are helper methods for creating
+                // This won't need set once there are helper methods for creating
                 // WsFederationHttpBinding and Ws2007FederationHttpBinding instances.
-                TokenType = "http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV1.1",
                 MessageSecurityVersion = MessageSecurityVersion.WSSecurity11WSTrust13WSSecureConversation13WSSecurityPolicy12BasicSecurityProfile10,
 
                 // These two properties are typically set to true. If you are trying to compare performance between NetFx and NetCore,

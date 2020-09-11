@@ -42,7 +42,7 @@ namespace NetFx
 
         static async Task CreateAndCallClient()
         {
-            using (var echoClient = new EchoServiceClient())
+            using (var echoClient = new EchoServiceClient("EchoService"))
             {
                 echoClient.ClientCredentials.UserName.UserName = @"username";
                 echoClient.ClientCredentials.UserName.Password = @"password";

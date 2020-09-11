@@ -20,7 +20,7 @@ namespace RelyingParty
             {
                 // For demo purposes, just load the key from disk so that no one needs to install an untrustworthy self-signed cert
                 var certPath = Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), "RelyingParty.pfx");
-                host.Credentials.ServiceCertificate.Certificate = new X509Certificate2(certPath, "[CertPassword]");
+                host.Credentials.ServiceCertificate.Certificate = new X509Certificate2(certPath, "RelyingParty");
                 host.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.None;
 
                 host.Credentials.UseIdentityConfiguration = true;

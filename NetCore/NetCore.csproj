@@ -6,7 +6,7 @@
   </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="System.ServiceModel.Federation" Version="6.5.2-preview-10506042551" />
+        <PackageReference Include="System.ServiceModel.Federation" Version="4.8.0-preview3.20412.3" />    
     </ItemGroup>
 
 </Project>
