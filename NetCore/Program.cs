@@ -46,7 +46,7 @@ namespace NetCore
 
         private static async Task CreateAndCallClient()
         {
-            // Cache the WCF client so that its ChannelFactory is reused
+            // Cache the WCF client so that its ChannelFactory is reused.
             // This sort of caching (reusing channel factory) happens automatically
             // in NetFx when using config-based clients. In NetCore, though, users
             // will need to manage this themselves to keep good performance.
@@ -55,6 +55,8 @@ namespace NetCore
                 EchoServiceClient = new EchoServiceClient(GetBinding(), Endpoint);
                 EchoServiceClient.ClientCredentials.UserName.UserName = @"username";
                 EchoServiceClient.ClientCredentials.UserName.Password = @"password";
+
+                // Don't validate certificates since they're just for test purposes
                 EchoServiceClient.ClientCredentials.ServiceCertificate.SslCertificateAuthentication = new X509ServiceCertificateAuthentication()
                 {
                     CertificateValidationMode = X509CertificateValidationMode.None,

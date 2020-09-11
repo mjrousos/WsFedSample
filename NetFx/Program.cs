@@ -46,6 +46,8 @@ namespace NetFx
             {
                 echoClient.ClientCredentials.UserName.UserName = @"username";
                 echoClient.ClientCredentials.UserName.Password = @"password";
+
+                // Don't validate certificates since they're just for test purposes
                 echoClient.ClientCredentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.None;
 
                 echoClient.Open();
