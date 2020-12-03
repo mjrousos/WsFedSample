@@ -5,7 +5,6 @@ using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Federation;
 using System.ServiceModel.Security;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NetCore
@@ -72,30 +71,16 @@ namespace NetCore
             var issuerBinding = new WS2007HttpBinding(SecurityMode.TransportWithMessageCredential);
             issuerBinding.Security.Message.ClientCredentialType = MessageCredentialType.UserName;
             issuerBinding.Security.Message.EstablishSecurityContext = false;
-            issuerBinding.TextEncoding = Encoding.UTF8;
 
-            var binding = new WsFederationHttpBinding(new WsTrustTokenParameters
-            {
-                IssuerBinding = issuerBinding,
-                IssuerAddress = new EndpointAddress("https://issueraddress/adfs/services/trust/13/usernamemixed"),
+            var endpointAddress = new EndpointAddress("https://issueraddress/adfs/services/trust/13/usernamemixed");
 
-                // This won't need set once there are helper methods for creating
-                // WsFederationHttpBinding and Ws2007FederationHttpBinding instances.
-                MessageSecurityVersion = MessageSecurityVersion.WSSecurity11WSTrust13WSSecureConversation13WSSecurityPolicy12BasicSecurityProfile10,
+            var tokenParameters = WSTrustTokenParameters.CreateWS2007FederationTokenParameters(issuerBinding, endpointAddress);
 
-                // These two properties are typically set to true. If you are trying to compare performance between NetFx and NetCore,
-                // though, then you will want to uncomment these lines to get a fair comparison. Since the NetFx sample in this solution
-                // isn't caching the WCF client, it has to recreate the secure conversation on every iteration even with SCT enabled. 
-                // If these are uncommented, the RelyingParty and NetFx samples will also need to disable security context for the binding 
-                // since the client and RP need to match.
-                // 
-                // In most real-world scenarios leveraging SCT, leaving these properties set to true (which is the default) is preferable.
-                // 
-                // CacheIssuedTokens = false,
-                // EstablishSecurityContext = false,
-            });
-
-            return binding;
+            // This works around https://github.com/dotnet/wcf/issues/4425 until an updated
+            // System.ServiceModel.Federation package is published.
+            tokenParameters.KeyType = System.IdentityModel.Tokens.SecurityKeyType.SymmetricKey;
+            
+            return new WSFederationHttpBinding(tokenParameters);
         }
     }
 }
